@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface IntroProps {
   onComplete: () => void;
@@ -6,67 +6,48 @@ interface IntroProps {
 
 const Intro: React.FC<IntroProps> = ({ onComplete }) => {
   const [fading, setFading] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Start fade out after animation duration
-    const timer = setTimeout(() => {
+    // Attempt to play video
+    if (videoRef.current) {
+        videoRef.current.play().catch(e => console.log("Auto-play prevented", e));
+    }
+
+    // Start fade out slightly before video ends
+    const fadeTimer = setTimeout(() => {
       setFading(true);
-    }, 2500);
+    }, 3800); // Adjust based on video length
 
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 3300);
+    }, 4500);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(fadeTimer);
       clearTimeout(completeTimer);
     };
   }, [onComplete]);
 
   return (
-    <div className={`fixed inset-0 z-[100] bg-black flex items-center justify-center transition-opacity duration-800 ease-out ${fading ? 'opacity-0' : 'opacity-100'}`}>
-      <div className="relative w-64 h-64 md:w-96 md:h-96">
-        <svg
-          viewBox="0 0 100 100"
-          className="w-full h-full drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]"
+    <div className={`fixed inset-0 z-[100] bg-black flex items-center justify-center transition-opacity duration-700 ease-out ${fading ? 'opacity-0' : 'opacity-100'}`}>
+        <video 
+            ref={videoRef}
+            muted
+            playsInline
+            className="w-full h-full object-contain md:object-cover"
         >
-          {/* Simulated Logo: Initials "DP" or similar geometric shape */}
-          <path
-            d="M 20 20 L 20 80 L 80 80 L 80 20 L 20 20"
-            fill="transparent"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="animate-draw"
-            style={{
-              strokeDasharray: 300,
-              strokeDashoffset: 300,
-              animation: 'draw 2s cubic-bezier(0.4, 0, 0.2, 1) forwards'
-            }}
-          />
-           <path
-            d="M 35 35 L 65 65 M 65 35 L 35 65"
-             fill="transparent"
-            stroke="white"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-             className="animate-draw"
-            style={{
-              strokeDasharray: 100,
-              strokeDashoffset: 100,
-              animation: 'draw 1.5s ease-in-out forwards 0.5s'
-            }}
-           />
-        </svg>
-        <style>{`
-          @keyframes draw {
-            to {
-              stroke-dashoffset: 0;
-            }
-          }
-        `}</style>
-      </div>
+            {/* 
+               REPLACE THIS SRC WITH YOUR ACTUAL INTRO VIDEO URL.
+               For now using a generic cinematic opening effect or keeping a placeholder.
+            */}
+            <source src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/video-tv-0819.m4v" type="video/mp4" />
+            
+            {/* Fallback if video fails */}
+            <div className="text-netflixRed font-black text-6xl tracking-widest animate-pulse">
+                STUDIO
+            </div>
+        </video>
     </div>
   );
 };

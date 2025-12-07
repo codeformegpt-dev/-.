@@ -3,7 +3,16 @@ import { CategoryRow, Project } from './types';
 // Helper to generate random images
 const getImg = (id: number, w: number, h: number) => `https://picsum.photos/id/${id}/${w}/${h}`;
 
-const tags = ["רגשי", "קולנועי", "שחור לבן", "אור טבעי", "אורבני", "פראי"];
+const tags = ["רגשי", "קולנועי", "שחור לבן", "אור טבעי", "אורבני", "פראי", "דוקו", "אמנותי"];
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  role: string;
+  text: string;
+  avatar: string;
+  rating: number;
+}
 
 const generateProject = (id: number, cat: string, title: string): Project => ({
   id,
@@ -32,7 +41,7 @@ const generateProject = (id: number, cat: string, title: string): Project => ({
 
 export const rows: CategoryRow[] = [
   {
-    title: "פופולרי עכשיו",
+    title: "פופולרי עכשיו בישראל",
     projects: [
       generateProject(101, "Trending", "אורות הכרך"),
       generateProject(102, "Trending", "דממה במדבר"),
@@ -78,8 +87,44 @@ export const rows: CategoryRow[] = [
 ];
 
 export const heroProject: Project = {
-  ...generateProject(999, "Hero", "הקולקציה השנתית"),
-  description: "מסע ויזואלי עוצר נשימה דרך העדשה שלי. רגעי שיא, טכניקה מוקפדת ואהבה אינסופית לאומנות הצילום. ממוקם בתל אביב, מצלם בכל העולם.",
-  thumbnail: getImg(50, 1920, 1080),
-  videoPreview: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" // Placeholder public video
+  ...generateProject(999, "Hero", "הקולקציה השנתית: העין השלישית"),
+  description: "מסע ויזואלי עוצר נשימה דרך העדשה. רגעי שיא, טכניקה מוקפדת ואהבה אינסופית לאומנות הצילום. הצטרפו לחוויה קולנועית שמשנה את הדרך בה אתם רואים את העולם.",
+  // Updated to a photographer shooting image
+  thumbnail: "https://images.unsplash.com/photo-1554048612-387768052bf7?q=80&w=2535&auto=format&fit=crop", 
+  videoPreview: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
 };
+
+export const testimonials: Testimonial[] = [
+  {
+    id: 1,
+    name: "נועה ועידן",
+    role: "זוג מתחתנים",
+    text: "פשוט וואו. התמונות נראות כמו סרט קולנוע. לא האמנו שאנחנו יכולים להיראות כל כך טוב. תודה על הזיכרונות!",
+    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+    rating: 5
+  },
+  {
+    id: 2,
+    name: "דניאל קורן",
+    role: "מנכ״ל FashionIL",
+    text: "מקצועיות ברמה בינלאומית. כל פריים מדויק, התאורה מושלמת. הבחירה הראשונה שלנו לכל הפקה.",
+    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    rating: 5
+  },
+  {
+    id: 3,
+    name: "שירה לוי",
+    role: "מעצבת פנים",
+    text: "הצליח לתפוס את הנשמה של הבית. הצילומים העלו את המותג שלי רמה אחת למעלה.",
+    avatar: "https://randomuser.me/api/portraits/women/68.jpg",
+    rating: 5
+  },
+  {
+    id: 4,
+    name: "יוני גל",
+    role: "במאי",
+    text: "עין של במאי, לב של אמן. חוויה לעבוד עם אדם שכל כך אוהב את מה שהוא עושה.",
+    avatar: "https://randomuser.me/api/portraits/men/86.jpg",
+    rating: 5
+  }
+];

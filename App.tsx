@@ -3,9 +3,11 @@ import Intro from './components/Intro';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Row from './components/Row';
+import TestimonialsRow from './components/TestimonialsRow';
+import Contact from './components/Contact';
 import Modal from './components/Modal';
 import Footer from './components/Footer';
-import { heroProject, rows } from './data';
+import { heroProject, rows, testimonials } from './data';
 import { Project } from './types';
 
 function App() {
@@ -34,7 +36,7 @@ function App() {
           
           <Hero project={heroProject} onMoreInfo={() => openModal(heroProject)} />
 
-          <div className="relative z-20 -mt-24 md:-mt-48 pb-10 space-y-4 md:space-y-8 pl-4 md:pl-12">
+          <div className="relative z-20 -mt-24 md:-mt-48 pb-10 space-y-8 md:space-y-12 pl-0">
             {rows.map((row, index) => (
               <Row 
                 key={index} 
@@ -43,7 +45,13 @@ function App() {
                 onOpenModal={openModal} 
               />
             ))}
+            
+            {/* New Testimonials Section */}
+            <TestimonialsRow testimonials={testimonials} />
           </div>
+
+          {/* New Contact Section */}
+          <Contact />
 
           <Footer />
 
