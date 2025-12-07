@@ -29,7 +29,7 @@ const Row: React.FC<RowProps> = ({ title, projects, onOpenModal, onPlay }) => {
   };
 
   return (
-    <div className="h-44 sm:h-52 md:h-80 mb-4 relative group space-y-2 px-4 md:px-12 transition-all hover:z-50 z-20">
+    <div className="h-48 sm:h-56 md:h-80 mb-8 relative group space-y-4 px-4 md:px-12 transition-all hover:z-50 z-20">
       <h2 className="text-lg md:text-2xl font-serif font-bold text-[#e5e5e5] hover:text-white transition duration-200 cursor-pointer inline-block drop-shadow-sm ml-1">
         {title}
       </h2>

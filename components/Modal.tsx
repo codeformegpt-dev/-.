@@ -49,9 +49,6 @@ const Modal: React.FC<ModalProps> = ({ project, onClose, onPlay }) => {
                <button className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-gray-500 text-gray-300 flex items-center justify-center hover:border-white hover:text-white transition bg-black/30 backdrop-blur-sm">
                   <Plus size={20} />
                </button>
-               <button className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-gray-500 text-gray-300 flex items-center justify-center hover:border-white hover:text-white transition bg-black/30 backdrop-blur-sm">
-                  <ThumbsUp size={20} />
-               </button>
             </div>
           </div>
         </div>
@@ -60,12 +57,6 @@ const Modal: React.FC<ModalProps> = ({ project, onClose, onPlay }) => {
         <div className="px-6 md:px-12 py-6 bg-[#181818]">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="md:col-span-2 space-y-4 text-gray-300">
-                    <div className="flex items-center gap-3 text-lg">
-                        <span className="text-[#46d369] font-bold">{project.match}</span>
-                        <span>2024</span>
-                        <span className="border border-gray-500 px-1 text-sm rounded">{project.resolution}</span>
-                        <span className="text-gray-400 text-sm">{project.duration}</span>
-                    </div>
                     <p className="text-white text-lg leading-relaxed font-light">{project.description}</p>
                 </div>
 

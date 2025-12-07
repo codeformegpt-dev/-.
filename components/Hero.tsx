@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, ArrowDown } from 'lucide-react';
+import { Play, ArrowDown, Info } from 'lucide-react';
 import { Project } from '../types';
 
 interface HeroProps {
@@ -11,8 +11,8 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ project, onMoreInfo, onPlay }) => {
   return (
-    <div className="relative h-screen w-full overflow-hidden flex items-end justify-start bg-black">
-      {/* Background Video */}
+    <div className="relative h-screen w-full overflow-hidden bg-black">
+      {/* Background Video - Takes Full Stage */}
       <div className="absolute inset-0 z-0">
         <video 
             autoPlay 
@@ -20,59 +20,60 @@ const Hero: React.FC<HeroProps> = ({ project, onMoreInfo, onPlay }) => {
             loop 
             playsInline
             poster={project.thumbnail}
-            className="w-full h-full object-cover opacity-70"
+            className="w-full h-full object-cover"
         >
             <source src="/showreel.mp4" type="video/mp4" />
         </video>
-        {/* Cinematic Grain Overlay */}
-        <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] animate-grain"></div>
-        {/* Gradient for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent opacity-80"></div>
+        {/* Subtle overlays for text legibility */}
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-l from-black/60 via-transparent to-transparent"></div>
       </div>
 
-      {/* Content - Bottom Left Editorial Style */}
-      <div className="relative z-10 w-full max-w-4xl px-6 md:px-20 pb-20 md:pb-24 space-y-6">
+      {/* Content - Aligned Right/Center Vertical */}
+      <div className="absolute top-0 right-0 w-full h-full flex flex-col justify-center items-end px-8 md:px-20 z-10 pointer-events-none">
         
-        {/* Title */}
-        <div className="space-y-2">
-            <p className="text-white/70 font-sans tracking-[0.3em] text-xs md:text-sm uppercase animate-in slide-in-from-left-10 duration-700">
-                The Portfolio of
-            </p>
-            <h1 className="text-6xl md:text-9xl font-serif font-black text-white leading-[0.85] tracking-tighter select-none drop-shadow-2xl animate-in slide-in-from-bottom-10 duration-1000 delay-100">
-                RONI LEVI
+        <div className="text-right pointer-events-auto space-y-6 max-w-xl">
+            {/* Name - Subtle */}
+            <h3 className="text-white/80 font-serif text-xl md:text-2xl tracking-widest uppercase mb-2">
+                Roni Levi
+            </h3>
+            
+            {/* Slogan - Impactful */}
+            <h1 className="text-5xl md:text-7xl font-black text-white leading-tight drop-shadow-2xl font-serif">
+                לתפוס את<br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-l from-white to-gray-400">הרגע</span>
             </h1>
-        </div>
-        
-        {/* Description - Personal & Warm */}
-        <p className="text-lg md:text-xl font-light text-gray-300 max-w-lg leading-relaxed animate-in fade-in duration-1000 delay-300">
-            לתפוס את הרגעים שבין לבין. החיוך הנבוך, הדמעה השקופה, הצחוק המתגלגל. 
-            צילום שמספר את הסיפור האמיתי שלכם.
-        </p>
 
-        {/* Buttons */}
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 pt-4 animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-500">
-            <button 
-                onClick={onPlay}
-                className="group relative px-8 py-4 overflow-hidden rounded bg-white text-black transition-all hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-            >
-              <span className="relative flex items-center gap-3 font-bold tracking-widest text-sm uppercase">
-                <Play size={16} fill="currentColor" /> Watch Showreel
-              </span>
-            </button>
+            {/* Description */}
+            <p className="text-gray-300 text-lg md:text-xl font-light pl-10 border-r-2 border-white/30 pr-4 mt-4 leading-relaxed">
+                רגעים קטנים של אושר, סיפורים גדולים של אהבה.
+            </p>
 
-             <button 
-                onClick={onMoreInfo}
-                className="group flex items-center gap-2 text-white/80 text-sm hover:text-white transition tracking-widest uppercase pb-1"
-            >
-              <span className="border-b border-transparent group-hover:border-white transition-all duration-300">הסיפור שלי</span>
-            </button>
+            {/* Buttons */}
+            <div className="flex flex-row-reverse gap-4 pt-8">
+                <button 
+                    onClick={onPlay}
+                    className="bg-white text-black px-8 py-3 rounded text-sm font-bold uppercase tracking-widest hover:bg-gray-200 transition flex items-center gap-2 group"
+                >
+                  <Play size={16} fill="black" /> 
+                  <span>נגן שואוריל</span>
+                </button>
+
+                 <button 
+                    onClick={onMoreInfo}
+                    className="bg-gray-500/30 backdrop-blur-md text-white px-8 py-3 rounded text-sm font-bold uppercase tracking-widest hover:bg-white/20 transition flex items-center gap-2"
+                >
+                  <Info size={16} />
+                  <span>עוד פרטים</span>
+                </button>
+            </div>
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-6 right-6 md:right-12 animate-bounce text-white/30 hidden md:block">
-        <ArrowDown size={24} />
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/50 z-20">
+        <ArrowDown size={32} />
       </div>
     </div>
   );

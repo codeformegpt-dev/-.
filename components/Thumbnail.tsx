@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Plus, ThumbsUp, ChevronDown } from 'lucide-react';
+import { Plus, Heart, ChevronDown } from 'lucide-react';
 import { Project } from '../types';
 
 interface ThumbnailProps {
@@ -10,28 +10,37 @@ interface ThumbnailProps {
 
 const Thumbnail: React.FC<ThumbnailProps> = ({ project, onOpenModal, onPlay }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const slideshowIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const imagesToCycle = project.images && project.images.length > 0 ? project.images : [project.thumbnail];
 
   const handleMouseEnter = () => {
     if (window.innerWidth > 768) {
       hoverTimeoutRef.current = setTimeout(() => {
         setIsHovered(true);
-      }, 400); // Slightly faster response
+      }, 500); 
     }
   };
 
   const handleMouseLeave = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    if (slideshowIntervalRef.current) clearInterval(slideshowIntervalRef.current);
     setIsHovered(false);
+    setCurrentImgIndex(0); // Reset slideshow
   };
 
   useEffect(() => {
-    return () => {
-        if(hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    if (isHovered && imagesToCycle.length > 1) {
+        slideshowIntervalRef.current = setInterval(() => {
+            setCurrentImgIndex(prev => (prev + 1) % imagesToCycle.length);
+        }, 1500); // Change image every 1.5s
     }
-  }, []);
+    return () => {
+        if (slideshowIntervalRef.current) clearInterval(slideshowIntervalRef.current);
+    };
+  }, [isHovered, imagesToCycle.length]);
 
   return (
     <div
@@ -40,85 +49,71 @@ const Thumbnail: React.FC<ThumbnailProps> = ({ project, onOpenModal, onPlay }) =
       onMouseLeave={handleMouseLeave}
       onClick={() => onOpenModal(project)}
     >
+        {/* Static Thumbnail */}
         <img
             src={project.thumbnail}
             alt={project.title}
-            className="w-full h-full object-cover rounded-md"
+            className="w-full h-full object-cover rounded-sm"
             loading="lazy"
         />
 
       {/* Hover Popup Card */}
       {isHovered && (
         <div 
-            className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#181818] rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.95)] z-[100] overflow-hidden animate-in fade-in zoom-in duration-300 origin-center scale-110"
+            className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#181818] rounded-md shadow-2xl z-[100] overflow-hidden animate-in fade-in zoom-in duration-300 origin-center"
             style={{ 
-                width: '140%',
-                top: '-180px', // Pulled up higher
-                height: '480px', // Fixed tall height
+                width: '120%', // Slightly wider
+                top: '-40%', // Grow upwards/centered
+                height: '180%', // Much taller
                 display: 'flex',
                 flexDirection: 'column'
             }}
         >
-          {/* Media Top */}
-          <div className="relative h-48 w-full shrink-0">
-            <img
-              src={project.images[1] || project.thumbnail} 
-              alt={project.title}
-              className="w-full h-full object-cover animate-ken-burns"
-            />
-             <div className="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-transparent opacity-90" />
-             <div className="absolute bottom-3 left-4 w-full pr-4 text-left">
-                <h4 className="text-white font-serif font-black text-2xl drop-shadow-md leading-none">{project.title}</h4>
+          {/* Slideshow Image Area - Takes most space */}
+          <div className="relative flex-grow w-full overflow-hidden">
+             {imagesToCycle.map((img, idx) => (
+                 <img
+                    key={idx}
+                    src={img}
+                    alt=""
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${idx === currentImgIndex ? 'opacity-100' : 'opacity-0'}`}
+                 />
+             ))}
+             {/* Gradient for text protection */}
+             <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#181818] to-transparent"></div>
+             
+             {/* Title overlaid on image bottom */}
+             <div className="absolute bottom-3 left-0 w-full px-4 text-center">
+                 <h4 className="text-white font-serif font-bold text-lg drop-shadow-md">{project.title}</h4>
              </div>
           </div>
 
-          {/* Controls & Metadata */}
-          <div className="p-4 space-y-3 bg-[#181818] flex-grow flex flex-col">
-            {/* Action Bar */}
-            <div className="flex justify-between items-center">
-              <div className="flex gap-2">
-                <button 
-                    onClick={(e) => { e.stopPropagation(); onPlay(project); }}
-                    className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition text-black shadow-lg"
-                >
-                  <Play fill="black" size={14} className="ml-0.5" />
-                </button>
-                <button className="w-8 h-8 rounded-full border border-gray-500 hover:border-white text-gray-300 hover:text-white flex items-center justify-center transition">
-                  <Plus size={16} />
-                </button>
-                <button className="w-8 h-8 rounded-full border border-gray-500 hover:border-white text-gray-300 hover:text-white flex items-center justify-center transition">
-                  <ThumbsUp size={14} />
-                </button>
-              </div>
-              <button 
+          {/* Minimal Controls & Text */}
+          <div className="h-auto p-3 bg-[#181818] flex items-center justify-between">
+            {/* Left: Down Arrow (More Info) */}
+            <button 
                 onClick={(e) => { e.stopPropagation(); onOpenModal(project); }}
-                className="w-8 h-8 rounded-full border border-gray-500 hover:border-white text-white flex items-center justify-center transition ml-auto bg-black/20"
-              >
+                className="w-8 h-8 rounded-full border border-gray-600 hover:border-white text-gray-300 hover:text-white flex items-center justify-center transition"
+            >
                 <ChevronDown size={16} />
-              </button>
-            </div>
+            </button>
 
-            {/* Info Text */}
-            <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
-              <span className="text-green-400 font-bold">{project.match}</span>
-              <span className="border border-gray-600 px-1 py-0.5 rounded text-[10px] text-gray-300 uppercase">{project.resolution}</span>
-              <span>{project.duration}</span>
+             {/* Right: Actions */}
+             <div className="flex gap-2">
+                <button className="text-gray-400 hover:text-white transition p-1">
+                  <Plus size={20} />
+                </button>
+                <button className="text-gray-400 hover:text-netflixRed transition p-1">
+                  <Heart size={20} />
+                </button>
             </div>
-
-             {/* Tags */}
-             <div className="flex flex-wrap gap-1.5">
-              {project.tags.slice(0, 3).map((tag, i) => (
-                <span key={i} className="text-white text-[10px] flex items-center bg-white/10 px-2 py-0.5 rounded-full">
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {/* Description */}
-            <div className="text-sm text-gray-300 leading-relaxed dir-rtl text-right overflow-y-auto pr-1">
-                {project.description}
-            </div>
-
+          </div>
+          
+          {/* Minimal Description */}
+          <div className="px-4 pb-3 bg-[#181818]">
+              <p className="text-xs text-gray-400 line-clamp-2 text-center leading-relaxed">
+                  {project.description}
+              </p>
           </div>
         </div>
       )}

@@ -10,7 +10,6 @@ import Slideshow from './components/Slideshow';
 import VideoModal from './components/VideoModal';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
-import Pricing from './components/Pricing';
 import PersonalNote from './components/PersonalNote';
 
 import { heroProject, rows, testimonials } from './data';
@@ -69,8 +68,8 @@ function App() {
 
           <div className="relative z-20 space-y-0">
             
-            {/* Gallery Rows with negative margin to pull up over hero slightly if desired, or keep clean */}
-            <div className="relative z-30 -mt-10 md:-mt-20 pb-20 pl-0 bg-gradient-to-b from-transparent via-[#141414] to-[#141414]">
+            {/* Gallery Rows - pushed down to start AFTER hero 100vh */}
+            <div className="relative z-30 pb-20 pl-0 bg-[#141414]">
                {rows.map((row, index) => (
                 <Row 
                   key={index} 
@@ -84,10 +83,6 @@ function App() {
 
             <div id="about" className="relative z-20">
                 <PersonalNote />
-            </div>
-
-            <div id="pricing" className="relative z-20">
-              <Pricing />
             </div>
 
             <TestimonialsRow testimonials={testimonials} />
