@@ -1,39 +1,96 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { processSteps } from '../data';
 
 const Process: React.FC = () => {
-  return (
-    <div className="py-24 px-4 md:px-12 bg-black relative overflow-hidden">
-      {/* Decorative vertical line */}
-      <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent" />
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-      <div className="max-w-4xl mx-auto relative z-10">
-        <div className="text-center mb-20">
-             <h2 className="text-3xl md:text-5xl font-serif text-white">איך זה עובד?</h2>
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      
+      const element = sectionRef.current;
+      const { top } = element.getBoundingClientRect();
+      const height = element.offsetHeight;
+      const windowHeight = window.innerHeight;
+      
+      // Calculate how much we've scrolled into the section
+      // The section is tall (e.g. 300vh).
+      // We map the scroll position to a 0-1 progress value.
+      const scrollDistance = height - windowHeight;
+      let progress = -top / scrollDistance;
+      
+      // Clamp between 0 and 1
+      progress = Math.max(0, Math.min(1, progress));
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    // Height determines how long the user has to scroll to get through the content
+    <div ref={sectionRef} className="relative h-[300vh] bg-[#050505]">
+      
+      {/* Sticky Container */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center">
+        
+        {/* Header (Fades out as you scroll) */}
+        <div 
+          className="absolute top-10 md:top-20 left-0 w-full text-center z-10 transition-opacity duration-500"
+          style={{ opacity: 1 - scrollProgress * 3 }} 
+        >
+           <h2 className="text-4xl md:text-6xl font-serif text-white">התהליך</h2>
+           <p className="text-gray-500 mt-2 tracking-widest uppercase text-sm">מחלום למציאות</p>
         </div>
 
-        <div className="space-y-16">
-          {processSteps.map((step, index) => (
-            <div key={step.id} className={`flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-16 group ${index % 2 === 0 ? 'md:flex-row-reverse text-right md:text-left' : 'text-right'}`}>
-              
-              {/* Text */}
-              <div className={`flex-1 space-y-2 ${index % 2 === 0 ? 'md:text-left' : 'md:text-right'}`}>
-                <h3 className="text-2xl md:text-3xl font-serif text-white group-hover:text-netflixRed transition duration-300">{step.title}</h3>
-                <p className="text-gray-400 font-light leading-relaxed">{step.description}</p>
-              </div>
+        {/* Horizontal Scroll Track */}
+        <div 
+          className="flex items-center px-[10vw] gap-[10vw] will-change-transform"
+          style={{ transform: `translateX(-${scrollProgress * 75}%)` }} // 75% assumes 4 items roughly
+        >
+          {/* Intro Card */}
+          <div className="flex-shrink-0 w-[80vw] md:w-[40vw]">
+             <h3 className="text-5xl md:text-8xl font-black text-white/10 leading-none">
+               THE<br/>JOURNEY
+             </h3>
+          </div>
 
-              {/* Number/Dot */}
-              <div className="relative flex items-center justify-center">
-                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/20 bg-black flex items-center justify-center text-xl font-bold text-gray-500 group-hover:border-netflixRed group-hover:text-white transition duration-500 shadow-[0_0_20px_rgba(0,0,0,1)] z-10">
-                  {step.number}
-                </div>
+          {processSteps.map((step) => (
+            <div key={step.id} className="flex-shrink-0 w-[80vw] md:w-[35vw] flex flex-col gap-6 group">
+              <div className="text-[10rem] md:text-[12rem] font-serif leading-none text-white/5 group-hover:text-white/20 transition-colors duration-500 select-none">
+                {step.number}
               </div>
-              
-              {/* Spacer for layout balance */}
-              <div className="flex-1 hidden md:block"></div>
+              <div className="border-t border-white/20 pt-6">
+                <h4 className="text-3xl md:text-5xl font-serif text-white mb-4">{step.title}</h4>
+                <p className="text-gray-400 text-lg md:text-xl font-light leading-relaxed max-w-md">
+                  {step.description}
+                </p>
+              </div>
             </div>
           ))}
+
+          {/* Outro Card */}
+          <div className="flex-shrink-0 w-[80vw] md:w-[40vw] flex items-center justify-center">
+             <div className="text-center">
+                <h3 className="text-4xl font-serif text-white mb-6">מוכנים להתחיל?</h3>
+                <button className="bg-white text-black px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-200 transition">
+                  דברו איתי
+                </button>
+             </div>
+          </div>
+
         </div>
+
+        {/* Progress Bar */}
+        <div className="absolute bottom-10 left-10 right-10 h-1 bg-white/10 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-white transition-all duration-100 ease-out"
+            style={{ width: `${scrollProgress * 100}%` }}
+          />
+        </div>
+
       </div>
     </div>
   );

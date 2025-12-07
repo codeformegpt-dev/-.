@@ -1,68 +1,72 @@
 import React from 'react';
-import { Play, Info } from 'lucide-react';
+import { Play, ArrowDown } from 'lucide-react';
 import { Project } from '../types';
 
 interface HeroProps {
   project: Project;
   onMoreInfo: () => void;
-  onPlay: () => void; // Plays Showreel Video (Full screen with sound)
-  onPlaySlideshow: () => void; // Plays Slideshow (About the photographer images) - kept for compatibility but secondary button calls onMoreInfo
+  onPlay: () => void;
+  onPlaySlideshow: () => void;
 }
 
 const Hero: React.FC<HeroProps> = ({ project, onMoreInfo, onPlay }) => {
   return (
-    <div className="relative h-screen w-full overflow-hidden font-sans group">
-      {/* Background Video (Muted Loop) */}
-      <div className="absolute top-0 left-0 w-full h-full z-0">
+    <div className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-black">
+      {/* Background Video */}
+      <div className="absolute inset-0 z-0">
         <video 
             autoPlay 
             muted 
             loop 
             playsInline
             poster={project.thumbnail}
-            className="w-full h-full object-cover scale-105 transition-transform duration-[20s] ease-linear"
+            className="w-full h-full object-cover opacity-60"
         >
             <source src="/showreel.mp4" type="video/mp4" />
         </video>
-        
-         {/* Gradient Overlay - Lighter to show more video */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-transparent to-transparent opacity-90" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/40 to-transparent" />
+        {/* Cinematic Grain Overlay */}
+        <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] animate-grain"></div>
       </div>
 
-      {/* Content */}
-      <div className="absolute z-10 top-0 left-0 w-full h-full flex flex-col justify-end pb-24 md:pb-32 px-4 md:px-12">
-        <div className="max-w-xl space-y-6 animate-in slide-in-from-left-10 fade-in duration-1000">
-          
-          {/* Logo / Title - Minimalist */}
-          <h1 className="text-6xl md:text-9xl font-black text-white drop-shadow-2xl tracking-tight leading-none font-serif italic opacity-95">
-            {project.title}
-          </h1>
-          
-          {/* Short Description */}
-          <p className="text-white text-lg md:text-2xl drop-shadow-lg leading-relaxed text-gray-100 font-light max-w-lg">
-            {project.description}
-          </p>
+      {/* Content - Centered Editorial Style */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center space-y-8 w-full px-4">
+        
+        {/* Massive Blend Mode Title */}
+        <div className="relative mix-blend-overlay">
+           <h1 className="text-[15vw] leading-[0.8] font-serif font-bold text-white tracking-tighter opacity-90 select-none">
+             RONI LEVI
+           </h1>
+        </div>
+        
+        {/* Subtitle */}
+        <p className="text-xl md:text-2xl font-light tracking-[0.3em] text-white/80 uppercase">
+            Capturing Life's Cinema
+        </p>
 
-          {/* Buttons */}
-          <div className="flex flex-row items-center gap-4 pt-2">
+        {/* Buttons */}
+        <div className="flex flex-col md:flex-row items-center gap-6 mt-8">
             <button 
                 onClick={onPlay}
-                className="flex items-center gap-3 bg-white hover:bg-white/90 text-black px-6 py-2.5 md:px-8 md:py-3 rounded md:rounded-md font-bold text-lg md:text-xl transition duration-200 transform hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                className="group relative px-8 py-3 overflow-hidden rounded-full bg-transparent border border-white/30 text-white transition-all hover:bg-white hover:text-black hover:scale-105"
             >
-              <Play fill="black" size={24} />
-              <span>נגן שואוריל</span>
+              <div className="absolute inset-0 w-0 bg-white transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
+              <span className="relative flex items-center gap-3 font-bold tracking-widest text-sm uppercase">
+                <Play size={14} fill="currentColor" /> Watch Showreel
+              </span>
             </button>
-            
-            <button 
+
+             <button 
                 onClick={onMoreInfo}
-                className="flex items-center gap-3 bg-[rgba(109,109,110,0.6)] hover:bg-[rgba(109,109,110,0.4)] text-white px-6 py-2.5 md:px-8 md:py-3 rounded md:rounded-md font-bold text-lg md:text-xl transition duration-200 backdrop-blur-md border border-white/20"
+                className="text-white/60 text-sm hover:text-white transition tracking-widest uppercase border-b border-transparent hover:border-white pb-1"
             >
-              <Info size={24} />
-              <span>הכר את הצלם</span>
+              Discover The Artist
             </button>
-          </div>
         </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/30">
+        <ArrowDown size={24} />
       </div>
     </div>
   );

@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Bell, Menu, Camera } from 'lucide-react';
+import { Camera } from 'lucide-react';
 
 const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -26,50 +20,54 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav
-      className={`fixed top-0 w-full z-40 transition-colors duration-500 ease-in-out px-4 md:px-12 py-4 flex items-center justify-between ${
-        isScrolled ? 'bg-[#141414]' : 'bg-transparent bg-gradient-to-b from-black/70 to-transparent'
-      }`}
-    >
-      <div className="flex items-center gap-8">
-        {/* Logo Area */}
-        <div 
-          onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
-          className="flex items-center gap-2 cursor-pointer text-netflixRed font-serif font-bold text-3xl tracking-tighter hover:scale-105 transition"
-        >
-          <Camera size={28} />
-          <span>STUDIO</span>
-        </div>
+    <div className="fixed top-6 left-0 w-full z-50 flex justify-center pointer-events-none">
+      <nav 
+        className={`pointer-events-auto transition-all duration-500 ease-out 
+          ${scrolled ? 'py-3 px-6 bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl rounded-full' : 'py-4 px-10 bg-black/20 backdrop-blur-sm border border-white/5 rounded-full'}
+          hover:bg-black/80 hover:scale-105 group
+        `}
+      >
+        <div className="flex items-center gap-8">
+          
+          {/* Logo */}
+          <div 
+            onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+            className="flex items-center gap-2 cursor-pointer text-white font-serif font-bold text-xl tracking-tight pr-4 border-r border-white/20"
+          >
+            <Camera size={20} className="text-white" />
+            <span>STUDIO</span>
+          </div>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-6 text-sm font-medium text-gray-200">
-          <li onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="cursor-pointer hover:text-white transition">בית</li>
-          <li className="cursor-pointer font-bold hover:text-white transition">גלריות</li>
-           <li onClick={() => scrollToSection('process')} className="cursor-pointer hover:text-gray-400 transition">תהליך</li>
-          <li onClick={() => scrollToSection('pricing')} className="cursor-pointer hover:text-gray-400 transition">חבילות</li>
-          <li onClick={() => scrollToSection('testimonials')} className="cursor-pointer hover:text-gray-400 transition">המלצות</li>
-        </ul>
-      </div>
+          {/* Links */}
+          <ul className="flex items-center gap-6 text-sm font-medium text-gray-300">
+            <li onClick={() => scrollToSection('process')} className="cursor-pointer hover:text-white transition relative group/link">
+                תהליך
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover/link:w-full"></span>
+            </li>
+            <li onClick={() => scrollToSection('pricing')} className="cursor-pointer hover:text-white transition relative group/link">
+                חבילות
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover/link:w-full"></span>
+            </li>
+            <li onClick={() => scrollToSection('testimonials')} className="cursor-pointer hover:text-white transition relative group/link">
+                המלצות
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover/link:w-full"></span>
+            </li>
+            <li onClick={() => scrollToSection('contact')} className="cursor-pointer hover:text-white transition relative group/link">
+                צור קשר
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover/link:w-full"></span>
+            </li>
+          </ul>
 
-      {/* Right Side Actions */}
-      <div className="flex items-center gap-6 text-white">
-        <div className={`flex items-center bg-black/50 border border-white/80 p-1 px-2 gap-2 transition-all duration-300 ${isSearchOpen ? 'w-48 opacity-100' : 'w-0 opacity-0 border-0 p-0 hidden'}`}>
-           <input type="text" placeholder="חיפוש..." className="bg-transparent text-sm w-full outline-none placeholder-gray-400" />
+           {/* CTA */}
+           <button 
+             onClick={() => scrollToSection('contact')}
+             className="hidden md:block bg-white text-black px-5 py-1.5 rounded-full text-xs font-bold hover:bg-gray-200 transition ml-2"
+           >
+             Book Now
+           </button>
         </div>
-        <Search 
-          className="w-6 h-6 cursor-pointer hover:text-gray-300 transition" 
-          onClick={() => setIsSearchOpen(!isSearchOpen)}
-        />
-        <Bell className="w-6 h-6 cursor-pointer hover:text-gray-300 transition hidden sm:block" />
-        
-        <button 
-          onClick={() => scrollToSection('contact')}
-          className="bg-netflixRed hover:bg-red-700 text-white text-sm font-bold px-4 py-1.5 rounded-sm transition shadow-md hover:scale-105"
-        >
-          הזמן צילום
-        </button>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 
