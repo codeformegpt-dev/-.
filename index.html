@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Photography Portfolio</title>
+    <!-- Import Google Fonts: Inter and Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -16,6 +21,7 @@
             },
             fontFamily: {
               sans: ['Inter', 'Roboto', 'sans-serif'],
+              serif: ['"Playfair Display"', 'serif'],
             },
             animation: {
               'draw-logo': 'draw 2s linear forwards',
@@ -24,6 +30,7 @@
               'ken-burns-slow': 'kenBurns 30s ease-out infinite alternate',
               'marquee-rtl': 'marqueeRtl 40s linear infinite',
               'marquee-ltr': 'marqueeLtr 40s linear infinite',
+              'grain': 'grain 8s steps(10) infinite',
             },
             keyframes: {
               draw: {
@@ -40,19 +47,23 @@
               },
               marqueeRtl: {
                 '0%': { transform: 'translateX(0%)' },
-                '100%': { transform: 'translateX(50%)' }, // Adjust based on content width
+                '100%': { transform: 'translateX(50%)' }, 
               },
               marqueeLtr: {
                 '0%': { transform: 'translateX(0%)' },
                 '100%': { transform: 'translateX(-50%)' },
               },
-              float: {
-                  '0%, 100%': { transform: 'translateY(0)' },
-                  '50%': { transform: 'translateY(-20px)' },
-              },
-              flicker: {
-                  '0%, 100%': { opacity: '1' },
-                  '50%': { opacity: '0.5' },
+              grain: {
+                '0%, 100%': { transform: 'translate(0, 0)' },
+                '10%': { transform: 'translate(-5%, -10%)' },
+                '20%': { transform: 'translate(-15%, 5%)' },
+                '30%': { transform: 'translate(7%, -25%)' },
+                '40%': { transform: 'translate(-5%, 25%)' },
+                '50%': { transform: 'translate(-15%, 10%)' },
+                '60%': { transform: 'translate(15%, 0%)' },
+                '70%': { transform: 'translate(0%, 15%)' },
+                '80%': { transform: 'translate(3%, 35%)' },
+                '90%': { transform: 'translate(-10%, 10%)' },
               }
             }
           },
@@ -60,23 +71,17 @@
       }
     </script>
     <style>
-      /* Hide scrollbar for Chrome, Safari and Opera */
       .no-scrollbar::-webkit-scrollbar {
           display: none;
       }
-      /* Hide scrollbar for IE, Edge and Firefox */
       .no-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none;
+          scrollbar-width: none;
       }
       body {
         background-color: #141414;
         color: #fff;
         overflow-x: hidden;
-      }
-      
-      .firefly {
-          mix-blend-mode: screen;
       }
     </style>
 <script type="importmap">

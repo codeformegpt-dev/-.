@@ -8,14 +8,14 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
   const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    // Start fade out
+    // Start fade out slightly before video ends or at a fixed time
     const fadeTimer = setTimeout(() => {
       setFading(true);
-    }, 4500); // Adjust based on video length approx
+    }, 4000); 
 
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 5500);
+    }, 5000);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -26,19 +26,22 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
   return (
     <div className={`fixed inset-0 z-[100] bg-black flex items-center justify-center transition-opacity duration-1000 ease-out ${fading ? 'opacity-0' : 'opacity-100'}`}>
         <div className="relative w-full h-full">
-            {/* Overlay to prevent interaction */}
-            <div className="absolute inset-0 z-10 bg-transparent"></div>
-            
-            <iframe 
-                width="100%" 
-                height="100%" 
-                src="https://www.youtube.com/embed/6Jg_rkKtJgo?autoplay=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&mute=0" 
-                title="Intro" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            <video 
+                autoPlay 
+                muted 
+                playsInline
                 className="w-full h-full object-cover pointer-events-none"
-                allowFullScreen
-            ></iframe>
+                onEnded={() => {
+                    setFading(true);
+                    setTimeout(onComplete, 1000);
+                }}
+            >
+                <source src="/intro.mp4" type="video/mp4" />
+                {/* Fallback text if video fails */}
+                <div className="flex items-center justify-center h-full text-netflixRed font-black text-6xl tracking-widest animate-pulse">
+                    STUDIO
+                </div>
+            </video>
         </div>
     </div>
   );
