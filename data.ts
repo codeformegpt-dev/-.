@@ -28,6 +28,14 @@ const kidsImages = [
     "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?q=80&w=2070&auto=format&fit=crop"
 ];
 
+// Photographer / Behind the Scenes images
+const photographerImages = [
+    "https://images.unsplash.com/photo-1554048612-387768052bf7?q=80&w=2070&auto=format&fit=crop", // Camera lens
+    "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2070&auto=format&fit=crop", // Photographer holding camera
+    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070&auto=format&fit=crop", // Mountain view taking photo
+    "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2000&auto=format&fit=crop"  // Camera setup
+];
+
 const generateProject = (id: number, cat: string, title: string, imgSet: string[], desc: string): Project => ({
   id,
   title,
@@ -81,21 +89,22 @@ export const rows: CategoryRow[] = [
   }
 ];
 
+// UPDATED HERO PROJECT - About the Photographer
 export const heroProject: Project = {
   id: 999,
-  title: "האלבום המשפחתי: סיפור מסע",
-  category: "Featured",
-  description: "זה לא סתם צילום, זה הסיפור שלכם. מסע ויזואלי עוצר נשימה המתעד את הרגעים הקטנים שהופכים למזכרות הגדולות ביותר. הצטרפו לחוויה שמשנה את הדרך בה אתם רואים את המשפחה שלכם.",
-  thumbnail: "https://images.unsplash.com/photo-1629249673977-2f14b6002c0b?q=80&w=2670&auto=format&fit=crop", // Warm family photo
-  match: "99% התאמה",
-  duration: "120 תמונות",
+  title: "רוני לוי", // שם הצלם
+  category: "אודות",
+  description: "אני לא רק מצלם תמונות, אני שומר רגעים. עם ניסיון של עשור בצילום דוקומנטרי ואומנותי, המטרה שלי היא לתפוס את הרגש האותנטי, את המבט החטוף ואת החיבור האנושי, ולהפוך אותם לזיכרון נצחי. הצטרפו למסע הויזואלי שלי.",
+  thumbnail: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2000&auto=format&fit=crop", 
+  match: "100% מקצועיות",
+  duration: "10 שנות ניסיון",
   resolution: "4K",
-  tags: ["משפחה", "דוקומנטרי", "מרגש"],
-  images: familyImages,
+  tags: ["דוקומנטרי", "אומנות", "רגש"],
+  images: photographerImages,
   details: {
-    client: "משפחת ישראלי",
-    location: "כל הארץ",
-    gear: "Sony Alpha 1",
+    client: "פורטפוליו אישי",
+    location: "תל אביב והמרכז",
+    gear: "Sony Alpha 1, Canon R5",
   }
 };
 
