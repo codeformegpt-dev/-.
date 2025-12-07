@@ -41,7 +41,7 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
                REPLACE THIS SRC WITH YOUR ACTUAL INTRO VIDEO URL.
                For now using a generic cinematic opening effect or keeping a placeholder.
             */}
-            <source src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/video-tv-0819.m4v" type="video/mp4" />
+            <source src="https://youtu.be/wdG9Sem71pk?si=BQMfmY0t48BN6Mxw" type="video/mp4" />
             
             {/* Fallback if video fails */}
             <div className="text-netflixRed font-black text-6xl tracking-widest animate-pulse">
