@@ -20,6 +20,10 @@
             animation: {
               'draw-logo': 'draw 2s linear forwards',
               'fade-out': 'fadeOut 0.8s ease-out forwards',
+              'ken-burns': 'kenBurns 20s ease-out infinite alternate',
+              'ken-burns-slow': 'kenBurns 30s ease-out infinite alternate',
+              'marquee-rtl': 'marqueeRtl 40s linear infinite',
+              'marquee-ltr': 'marqueeLtr 40s linear infinite',
             },
             keyframes: {
               draw: {
@@ -29,6 +33,26 @@
               fadeOut: {
                 '0%': { opacity: '1' },
                 '100%': { opacity: '0' },
+              },
+              kenBurns: {
+                '0%': { transform: 'scale(1)' },
+                '100%': { transform: 'scale(1.15)' },
+              },
+              marqueeRtl: {
+                '0%': { transform: 'translateX(0%)' },
+                '100%': { transform: 'translateX(50%)' }, // Adjust based on content width
+              },
+              marqueeLtr: {
+                '0%': { transform: 'translateX(0%)' },
+                '100%': { transform: 'translateX(-50%)' },
+              },
+              float: {
+                  '0%, 100%': { transform: 'translateY(0)' },
+                  '50%': { transform: 'translateY(-20px)' },
+              },
+              flicker: {
+                  '0%, 100%': { opacity: '1' },
+                  '50%': { opacity: '0.5' },
               }
             }
           },
@@ -50,16 +74,20 @@
         color: #fff;
         overflow-x: hidden;
       }
+      
+      .firefly {
+          mix-blend-mode: screen;
+      }
     </style>
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
     "react/": "https://aistudiocdn.com/react@^19.2.1/",
     "react": "https://aistudiocdn.com/react@^19.2.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
     "vite": "https://aistudiocdn.com/vite@^7.2.6",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0"
   }
 }
 </script>

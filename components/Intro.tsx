@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface IntroProps {
   onComplete: () => void;
@@ -6,22 +6,16 @@ interface IntroProps {
 
 const Intro: React.FC<IntroProps> = ({ onComplete }) => {
   const [fading, setFading] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Attempt to play video
-    if (videoRef.current) {
-        videoRef.current.play().catch(e => console.log("Auto-play prevented", e));
-    }
-
-    // Start fade out slightly before video ends
+    // Start fade out
     const fadeTimer = setTimeout(() => {
       setFading(true);
-    }, 3800); // Adjust based on video length
+    }, 4500); // Adjust based on video length approx
 
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 4500);
+    }, 5500);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -30,24 +24,22 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className={`fixed inset-0 z-[100] bg-black flex items-center justify-center transition-opacity duration-700 ease-out ${fading ? 'opacity-0' : 'opacity-100'}`}>
-        <video 
-            ref={videoRef}
-            muted
-            playsInline
-            className="w-full h-full object-contain md:object-cover"
-        >
-            {/* 
-               REPLACE THIS SRC WITH YOUR ACTUAL INTRO VIDEO URL.
-               For now using a generic cinematic opening effect or keeping a placeholder.
-            */}
-            <source src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/video-tv-0819.m4v" type="video/mp4" />
+    <div className={`fixed inset-0 z-[100] bg-black flex items-center justify-center transition-opacity duration-1000 ease-out ${fading ? 'opacity-0' : 'opacity-100'}`}>
+        <div className="relative w-full h-full">
+            {/* Overlay to prevent interaction */}
+            <div className="absolute inset-0 z-10 bg-transparent"></div>
             
-            {/* Fallback if video fails */}
-            <div className="text-netflixRed font-black text-6xl tracking-widest animate-pulse">
-                STUDIO
-            </div>
-        </video>
+            <iframe 
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/6Jg_rkKtJgo?autoplay=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&mute=0" 
+                title="Intro" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                className="w-full h-full object-cover pointer-events-none"
+                allowFullScreen
+            ></iframe>
+        </div>
     </div>
   );
 };

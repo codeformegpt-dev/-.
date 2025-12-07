@@ -7,9 +7,10 @@ interface RowProps {
   title: string;
   projects: Project[];
   onOpenModal: (project: Project) => void;
+  onPlay: (project: Project) => void; // New prop
 }
 
-const Row: React.FC<RowProps> = ({ title, projects, onOpenModal }) => {
+const Row: React.FC<RowProps> = ({ title, projects, onOpenModal, onPlay }) => {
   const rowRef = useRef<HTMLDivElement>(null);
   const [isMoved, setIsMoved] = useState(false);
 
@@ -28,37 +29,39 @@ const Row: React.FC<RowProps> = ({ title, projects, onOpenModal }) => {
   };
 
   return (
-    <div className="h-44 sm:h-52 md:h-80 mb-4 md:mb-8 relative group space-y-2 md:space-y-4 px-4 md:px-12 z-20">
-      <h2 className="text-lg md:text-2xl font-bold text-[#e5e5e5] hover:text-white transition duration-200 cursor-pointer inline-block">
+    <div className="h-44 sm:h-52 md:h-80 mb-8 relative group space-y-3 px-4 md:px-12 z-20">
+      <h2 className="text-lg md:text-2xl font-bold text-[#e5e5e5] hover:text-white transition duration-200 cursor-pointer inline-block drop-shadow-sm">
         {title}
       </h2>
       
       <div className="group relative">
-        {/* Left Arrow (Hidden on Mobile usually, but let's keep for desktop logic) */}
         <div
-          className={`hidden md:flex absolute top-0 bottom-0 left-0 bg-black/50 z-40 w-12 items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition duration-200 hover:bg-black/70 hover:scale-110 ${!isMoved && 'hidden'}`}
+          className={`hidden md:flex absolute top-0 bottom-0 left-0 bg-gradient-to-r from-black/80 to-transparent z-40 w-14 items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition duration-200 hover:scale-110 ${!isMoved && 'hidden'}`}
           onClick={() => handleClick('left')}
         >
-          <ChevronRight className="text-white w-8 h-8" />
+          <ChevronRight className="text-white w-10 h-10 drop-shadow-lg" />
         </div>
 
-        {/* Scroll Container */}
         <div
           ref={rowRef}
-          className="flex items-center overflow-x-scroll no-scrollbar scroll-smooth overflow-y-visible py-4 md:py-8 pl-1 pr-1"
+          className="flex items-center overflow-x-scroll no-scrollbar scroll-smooth overflow-y-visible py-8 pl-1 pr-1 gap-1"
           style={{ scrollBehavior: 'smooth' }}
         >
           {projects.map((project) => (
-            <Thumbnail key={project.id} project={project} onOpenModal={onOpenModal} />
+            <Thumbnail 
+                key={project.id} 
+                project={project} 
+                onOpenModal={onOpenModal} 
+                onPlay={onPlay}
+            />
           ))}
         </div>
 
-        {/* Right Arrow */}
         <div
-          className="hidden md:flex absolute top-0 bottom-0 right-0 bg-black/50 z-40 w-12 items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition duration-200 hover:bg-black/70 hover:scale-110"
+          className="hidden md:flex absolute top-0 bottom-0 right-0 bg-gradient-to-l from-black/80 to-transparent z-40 w-14 items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition duration-200 hover:scale-110"
           onClick={() => handleClick('right')}
         >
-          <ChevronLeft className="text-white w-8 h-8" />
+          <ChevronLeft className="text-white w-10 h-10 drop-shadow-lg" />
         </div>
       </div>
     </div>

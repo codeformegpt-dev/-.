@@ -6,6 +6,7 @@ import Row from './components/Row';
 import TestimonialsRow from './components/TestimonialsRow';
 import Contact from './components/Contact';
 import Modal from './components/Modal';
+import Slideshow from './components/Slideshow';
 import Footer from './components/Footer';
 import { heroProject, rows, testimonials } from './data';
 import { Project } from './types';
@@ -13,6 +14,7 @@ import { Project } from './types';
 function App() {
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [slideshowProject, setSlideshowProject] = useState<Project | null>(null);
 
   const handleIntroComplete = () => {
     setLoading(false);
@@ -26,6 +28,14 @@ function App() {
     setSelectedProject(null);
   };
 
+  const startSlideshow = (project: Project) => {
+    setSlideshowProject(project);
+  };
+
+  const closeSlideshow = () => {
+    setSlideshowProject(null);
+  };
+
   return (
     <div className="bg-[#141414] min-h-screen text-white font-sans overflow-x-hidden selection:bg-netflixRed selection:text-white">
       {loading && <Intro onComplete={handleIntroComplete} />}
@@ -34,29 +44,43 @@ function App() {
         <div className="animate-in fade-in duration-1000">
           <Navbar />
           
-          <Hero project={heroProject} onMoreInfo={() => openModal(heroProject)} />
+          <Hero 
+            project={heroProject} 
+            onMoreInfo={() => openModal(heroProject)} 
+            onPlay={() => startSlideshow(heroProject)}
+          />
 
-          <div className="relative z-20 -mt-24 md:-mt-48 pb-10 space-y-8 md:space-y-12 pl-0">
+          <div className="relative z-20 -mt-24 md:-mt-48 pb-10 space-y-4 pl-0">
             {rows.map((row, index) => (
               <Row 
                 key={index} 
                 title={row.title} 
                 projects={row.projects} 
                 onOpenModal={openModal} 
+                onPlay={startSlideshow}
               />
             ))}
             
-            {/* New Testimonials Section */}
             <TestimonialsRow testimonials={testimonials} />
           </div>
 
-          {/* New Contact Section */}
           <Contact />
 
           <Footer />
 
           {selectedProject && (
-            <Modal project={selectedProject} onClose={closeModal} />
+            <Modal 
+                project={selectedProject} 
+                onClose={closeModal} 
+                onPlay={() => startSlideshow(selectedProject)}
+            />
+          )}
+
+          {slideshowProject && (
+              <Slideshow 
+                images={slideshowProject.images.length > 0 ? slideshowProject.images : [slideshowProject.thumbnail]} 
+                onClose={closeSlideshow} 
+              />
           )}
         </div>
       )}
