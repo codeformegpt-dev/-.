@@ -1,37 +1,48 @@
 import { CategoryRow, Project, Testimonial, PricingPlan, ProcessStep } from './types';
 
 // Helper to generate random images from Unsplash for better quality
-const getImg = (keywords: string, w: number, h: number) => `https://source.unsplash.com/random/${w}x${h}?${keywords}`;
+// Using specific IDs or keywords to ensure variety
+const getImg = (keywords: string) => `https://source.unsplash.com/random/800x600?${keywords}`;
 
-const tags = ["מרגש", "אור טבעי", "משפחה", "אהבה", "ספונטני", "אותנטי", "ילדות", "קסם"];
+const tags = ["אותנטי", "רגע אמיתי", "אור טבעי", "אהבה", "ללא פילטרים", "זיכרון", "חום", "קסם"];
 
 const familyImages = [
     "https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=2070&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1609220136736-443140cffec6?q=80&w=2070&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1476703993279-0c5d4f194a31?q=80&w=2070&auto=format&fit=crop"
+    "https://images.unsplash.com/photo-1476703993279-0c5d4f194a31?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1596908070993-f252033c46e0?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1581952976147-5a2d15560349?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?q=80&w=2070&auto=format&fit=crop"
 ];
 
 const weddingImages = [
     "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=2070&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=2070&auto=format&fit=crop"
+    "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1520854221250-8c1295909a3c?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=2070&auto=format&fit=crop"
 ];
 
 const kidsImages = [
     "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=2070&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?q=80&w=2070&auto=format&fit=crop"
+    "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1519340241574-2291ecf8d084?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1502781252888-9143ba7f074e?q=80&w=2070&auto=format&fit=crop"
 ];
 
-// Photographer / Behind the Scenes images
-const photographerImages = [
-    "https://images.unsplash.com/photo-1554048612-387768052bf7?q=80&w=2070&auto=format&fit=crop", // Camera lens
-    "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2070&auto=format&fit=crop", // Photographer holding camera
-    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070&auto=format&fit=crop", // Mountain view taking photo
-    "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2000&auto=format&fit=crop"  // Camera setup
+const btsImages = [
+    "https://images.unsplash.com/photo-1554048612-387768052bf7?q=80&w=2070&auto=format&fit=crop", 
+    "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2000&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1500634245200-e5245c7574ef?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?q=80&w=2070&auto=format&fit=crop"
 ];
 
 const generateProject = (id: number, cat: string, title: string, imgSet: string[], desc: string): Project => ({
@@ -45,64 +56,62 @@ const generateProject = (id: number, cat: string, title: string, imgSet: string[
   resolution: "HD",
   tags: [tags[id % tags.length], tags[(id + 1) % tags.length], "Story"],
   details: {
-    client: "משפחת כהן/לוי",
-    location: "חוף הים / יער בן שמן",
+    client: "משפחות יקרות",
+    location: "ישראל",
     gear: "Canon R5, 50mm 1.2",
   },
-  images: [
-    imgSet[0], imgSet[1], imgSet[2], imgSet[3], imgSet[0], imgSet[1]
-  ]
+  images: imgSet.sort(() => 0.5 - Math.random()) // Shuffle images for variety
 });
 
 export const rows: CategoryRow[] = [
   {
-    title: "רגעים משפחתיים שנשארים לתמיד",
+    title: "רגעים משפחתיים קטנים",
     projects: [
-      generateProject(101, "Family", "שבת בבוקר", familyImages, "תיעוד דוקומנטרי של בוקר משפחתי רגוע. בלי העמדות, בלי פילטרים, רק אהבה וקפה של בוקר."),
-      generateProject(102, "Family", "צחוק מתגלגל", familyImages, "יום כיף בפארק שהפך לאלבום למזכרת. הרגעים הקטנים שבין לבין הם החשובים באמת."),
-      generateProject(103, "Family", "שלושה דורות", familyImages, "סשן מרגש המאחד סבתא, אמא ונכדה. חיבור בין דורי שתועד ברכות ורגישות."),
-      generateProject(104, "Family", "הבית שלנו", familyImages, "צילום לייף-סטייל בתוך הבית. המקום בו אתם מרגישים הכי בנוח."),
-      generateProject(105, "Family", "טיול שקיעה", familyImages, "אור זהוב וחיבוקים אינסופיים על קו החוף. הזיכרונות הכי יפים של הקיץ."),
+      generateProject(101, "Family", "בוקר של שבת", familyImages, "הגעתי אליכם הביתה ב-9 בבוקר, כשהקפה עוד היה חם. בלי לביים, פשוט הייתי שם כשהילדים קפצו על המיטה."),
+      generateProject(102, "Family", "הצחוק של נועה", familyImages, "יצאנו לפארק אחר הצהריים. לא ביקשתי מכם לחייך למצלמה אפילו פעם אחת, והתוצאה? החיוכים הכי אמיתיים שיש."),
+      generateProject(103, "Family", "שלושה דורות", familyImages, "סבתא רותי, אמא יעל והנכדה הקטנה. החיבור ביניהן היה מחשמל. כבוד גדול עבורי לתעד את השושלת הזו."),
+      generateProject(104, "Family", "הבית שלנו", familyImages, "כי אין מקום כמו בבית. הפינה שלכם, האור שלכם, הריח שלכם. הזיכרונות הכי יפים נוצרים בסלון."),
+      generateProject(105, "Family", "שקיעה בחוף", familyImages, "הרוח, החול, והאהבה שלכם. כשהשמש יורדת, הקסם קורה מעצמו."),
     ]
   },
   {
-    title: "סיפורי אהבה וחתונות",
+    title: "סיפורי אהבה",
     projects: [
-      generateProject(201, "Wedding", "הנדר", weddingImages, "הרגע המדויק בו העיניים נפגשות מתחת לחופה. תיעוד מלא של יום החתונה באווירה קולנועית."),
-      generateProject(202, "Wedding", "ריקוד אחרון", weddingImages, "אנרגיות מטורפות ברחבה, ורגעי שקט אינטימיים בצילומי הזוגיות."),
-      generateProject(203, "Wedding", "פשוט אהבה", weddingImages, "חתונה אורבנית קטנה ואיכותית בתל אביב. בלי מסכות, רק אתם."),
-      generateProject(204, "Wedding", "ביער הקסום", weddingImages, "חתונת צהריים בטבע. ירוק, לבן והמון שמחה באוויר."),
-      generateProject(205, "Wedding", "רגעים גנובים", weddingImages, "המבטים הקטנים שאף אחד אחר לא ראה, חוץ מהעדשה שלי."),
+      generateProject(201, "Wedding", "המבט שלו", weddingImages, "שנייה לפני ששברת את הכוס, תפסתי את המבט שלך אליה. זה הרגע ששווה את כל האירוע."),
+      generateProject(202, "Wedding", "ריקוד צמוד", weddingImages, "כשכולם כבר היו עייפים, אתם נשארתם על הרחבה. רק שניכם, והמוזיקה."),
+      generateProject(203, "Wedding", "אינטימיות בתל אביב", weddingImages, "חתונה קטנה על הגג. בלי רעש וצלצולים, רק החברים הכי טובים והמון יין."),
+      generateProject(204, "Wedding", "יחפים בדשא", weddingImages, "חתונת צהריים בקיבוץ. הכל פשוט, הכל ירוק, הכל מלא באהבה."),
+      generateProject(205, "Wedding", "רגעים גנובים", weddingImages, "בזמן שכולם אכלו, גנבתי אתכם לצילום קצר בשדה. השקט שלכם בתוך ההמולה."),
     ]
   },
   {
-    title: "ילדות קסומה",
+    title: "הילדות היא קסם",
     projects: [
-      generateProject(301, "Kids", "גיל שנה", kidsImages, "חגיגת ה'סמאש קייק' הכי מתוקה שיש. לכלוך, צחוק ושמחה טהורה."),
-      generateProject(302, "Kids", "החברים הכי טובים", kidsImages, "צילומים עם חיית המחמד המשפחתית. רגעים של תום."),
-      generateProject(303, "Kids", "בועות סבון", kidsImages, "קסם של אחר הצהריים. תפיסת הרגעים הספונטניים ביותר של הילדים."),
-      generateProject(304, "Kids", "חוקרים את העולם", kidsImages, "סקרנות של ילדים בטבע. מבט בגובה העיניים על העולם שלהם."),
-      generateProject(305, "Kids", "אחים", kidsImages, "הקשר המיוחד בין אחים ואחיות. חיבוקים, מריבות ומשחקים."),
+      generateProject(301, "Kids", "עוגה ראשונה", kidsImages, "איזה בלאגן מתוק! גיל שנה זה גיל של גילויים, ובעיקר של טעימות."),
+      generateProject(302, "Kids", "החבר הכי טוב", kidsImages, "הקשר בין תום לכלב שלכם הוא משהו נדיר. שמחתי לתפוס את החיבוק הזה."),
+      generateProject(303, "Kids", "בועות של אושר", kidsImages, "ההתלהבות הפשוטה מבועות סבון. לפעמים לא צריך יותר מזה כדי להיות מאושר."),
+      generateProject(304, "Kids", "מגלי עולמות", kidsImages, "יצאנו ליער לחפש פטריות וגמדים. המבט הסקרן שלהם שווה הכל."),
+      generateProject(305, "Kids", "אחים בלב", kidsImages, "רגע אחד רבים, רגע אחרי מתחבקים. אהבת אחים אמיתית וכנה."),
     ]
   }
 ];
 
-// UPDATED HERO PROJECT - About the Photographer
+// UPDATED HERO PROJECT
 export const heroProject: Project = {
   id: 999,
-  title: "רוני לוי", // שם הצלם
+  title: "רוני לוי",
   category: "אודות",
-  description: "לתפוס את הרגעים הכי יפים שלכם, בדיוק כמו שהם. אותנטיות, רגש ואהבה שרואים דרך העדשה.",
-  thumbnail: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2000&auto=format&fit=crop", 
-  match: "100% מקצועיות",
-  duration: "10 שנות ניסיון",
-  resolution: "4K",
+  description: "אני לא מחפש את התמונה המושלמת, אני מחפש את התמונה האמיתית. זו שתרצו להסתכל עליה בעוד 20 שנה ולהרגיש בדיוק את מה שהרגשתם באותו הרגע.",
+  thumbnail: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070&auto=format&fit=crop", 
+  match: "100%",
+  duration: "מאז 2014",
+  resolution: "Art",
   tags: ["דוקומנטרי", "אומנות", "רגש"],
-  images: photographerImages,
+  images: btsImages,
   details: {
-    client: "פורטפוליו אישי",
-    location: "תל אביב והמרכז",
-    gear: "Sony Alpha 1, Canon R5",
+    client: "הסיפור שלי",
+    location: "תל אביב",
+    gear: "Sony & Canon",
   }
 };
 
@@ -111,84 +120,80 @@ export const testimonials: Testimonial[] = [
     id: 1,
     name: "משפחת כהן",
     role: "צילומי גיל שנה",
-    text: "וואו! לא הפסקנו לבכות מהתרגשות כשראינו את האלבום. תפסת רגעים שלא שמנו לב אליהם בכלל.",
+    text: "רוני, פשוט תודה. גרמת לנו להרגיש כל כך בנוח, והתמונות? אין מילים. הצלחת לתפוס את האופי של יונתן בדיוק כמו שהוא.",
     avatar: "https://randomuser.me/api/portraits/women/44.jpg",
     rating: 5
   },
   {
     id: 2,
-    name: "איתי ורוני",
+    name: "עומר ודנה",
     role: "חתונה",
-    text: "הצלם הכי טוב שיכולנו לבקש. הרגשנו בנוח, צחקנו, והתוצאות נראות כמו ממגזין בינלאומי.",
+    text: "חיפשנו צלם שלא 'יביים' אותנו, ומצאנו אמן. התמונות יצאו טבעיות, מרגשות ומלאות בסטייל. ממליצים בחום!",
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     rating: 5
   },
   {
     id: 3,
-    name: "מיכל לוי",
+    name: "מיכל",
     role: "בת מצווה",
-    text: "מקצוען אמיתי עם גישה מדהימה לילדים. הבת שלי עפה על התמונות וגם הסבתות!",
+    text: "הבת שלי בדרך כלל מתביישת להצטלם, אבל איתך היא פשוט פרחה. נתת לה להרגיש מלכה ליום אחד.",
     avatar: "https://randomuser.me/api/portraits/women/68.jpg",
     rating: 5
   },
-  {
-    id: 4,
-    name: "יונתן",
-    role: "בוק בר מצווה",
-    text: "היה פשוט כיף! לא הרגשתי שאני בצילומים, הרגשתי שאני מטייל עם חבר. יצא אש.",
-    avatar: "https://randomuser.me/api/portraits/men/86.jpg",
-    rating: 5
-  },
-  {
-    id: 5,
-    name: "שרה",
-    role: "צילומי הריון",
-    text: "רגישות, עדינות ומקצועיות. הרגשתי הכי יפה בעולם.",
-    avatar: "https://randomuser.me/api/portraits/women/22.jpg",
-    rating: 5
-  },
-  {
-    id: 6,
-    name: "משפחת אברהמי",
-    role: "צילומי דורות",
-    text: "מזכרת לכל החיים. אין מילים לתאר את האיכות.",
-    avatar: "https://randomuser.me/api/portraits/men/11.jpg",
-    rating: 5
-  }
 ];
 
 export const pricingPlans: PricingPlan[] = [
   {
     id: 1,
-    name: "חבילת בסיס",
-    price: "1,200₪",
-    features: ["שעת צילום אחת", "לוקיישן אחד לבחירה", "50 תמונות ערוכות", "גלריה דיגיטלית", "ללא אלבום מודפס"],
+    name: "חבילת היכרות",
+    price: "850₪",
+    features: ["45 דקות צילום", "לוקיישן אחד בטבע", "40 תמונות ערוכות", "גלריה דיגיטלית", "מתאים לזוגות / ילדים"],
     isPopular: false
   },
   {
     id: 2,
-    name: "חבילת פרימיום",
-    price: "1,900₪",
-    features: ["שעתיים צילום", "עד 2 לוקיישנים", "100 תמונות ערוכות", "גלריה דיגיטלית", "אלבום דיגיטלי מעוצב", "הגדלה אחת במתנה"],
+    name: "הסיפור המלא",
+    price: "1,500₪",
+    features: ["שעה וחצי צילום", "עד 2 לוקיישנים", "100 תמונות ערוכות", "גלריה דיגיטלית", "מיני-אלבום דיגיטלי", "מתאים למשפחות"],
     isPopular: true
   },
   {
     id: 3,
-    name: "חבילת VIP",
-    price: "3,500₪",
-    features: ["יום צילום מלא", "ללא הגבלת לוקיישנים", "כל התמונות ערוכות", "וידאו קליפ קצר", "אלבום פרימיום מודפס", "רחפן (במידת האפשר)"],
+    name: "החבילה המורחבת",
+    price: "2,800₪",
+    features: ["בוקר צילום מלא", "סטיילינג אישי", "כל התמונות ערוכות", "סרטון אווירה קצר", "אלבום פרימיום מודפס 30x30"],
     isPopular: false
   }
 ];
 
-export const processSteps: ProcessStep[] = [
-  { id: 1, number: "01", title: "היכרות", description: "שיחת קפה (או זום) להבין את הוויב שלכם ולתכנן את הלוקיישן המושלם." },
-  { id: 2, number: "02", title: "יום הצילום", description: "באים ליהנות! מוזיקה, צחוקים ואווירה טובה. אני דואג לכל השאר." },
-  { id: 3, number: "03", title: "קסם העריכה", description: "כל תמונה עוברת טיפול אישי, צבע ופילם לוק ייחודי." },
-  { id: 4, number: "04", title: "המסירה", description: "קבלת הגלריה המלאה והאלבומים המודפסים עד הבית." },
-];
-
 export const beforeAfterImages = {
-  before: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop", // Raw looking
-  after: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop&sat=0&con=120" // Edited looking (simulated for demo with same img but you'd swap urls)
+  before: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop", 
+  after: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop&sat=0&con=120" 
 };
+
+export const processSteps: ProcessStep[] = [
+  {
+    id: 1,
+    number: "01",
+    title: "היכרות",
+    description: "אנחנו מתחילים בשיחה. אני רוצה לשמוע את הסיפור שלכם, להבין מה מרגש אתכם ומה הציפיות שלכם. נבחר יחד את הלוקיישן המושלם ונתאם תאריך."
+  },
+  {
+    id: 2,
+    number: "02",
+    title: "הצילום",
+    description: "ביום הצילום, אנחנו פשוט מבלים יחד. אני דואג לאווירה משוחררת ונעימה, ללא העמדות נוקשות. אני שם כדי לתפוס את הרגעים הספונטניים והקסומים ביותר."
+  },
+  {
+    id: 3,
+    number: "03",
+    title: "עריכה",
+    description: "לאחר הצילום, אני עובר על החומרים ובוחר את התמונות הטובות ביותר. כל תמונה עוברת עריכה קפדנית בסגנון הייחודי שלי, שמעניקה לה עומק ורגש."
+  },
+  {
+    id: 4,
+    number: "04",
+    title: "המסירה",
+    description: "תוך זמן קצר, תקבלו גלריה דיגיטלית יפיפייה, מוכנה לשיתוף והורדה. זה הרגע שבו הזיכרונות שלכם הופכים לנצחיים."
+  }
+];

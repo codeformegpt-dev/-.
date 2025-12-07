@@ -11,7 +11,7 @@ import VideoModal from './components/VideoModal';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 import Pricing from './components/Pricing';
-import Process from './components/Process';
+import PersonalNote from './components/PersonalNote';
 
 import { heroProject, rows, testimonials } from './data';
 import { Project } from './types';
@@ -51,7 +51,7 @@ function App() {
   };
 
   return (
-    <div className="bg-[#141414] min-h-screen text-white font-sans overflow-x-hidden selection:bg-netflixRed selection:text-white cursor-none">
+    <div className="bg-[#141414] min-h-screen text-white font-sans overflow-x-hidden selection:bg-white selection:text-black cursor-none">
       <CustomCursor />
       
       {appState === 'intro' && <Intro onComplete={handleIntroComplete} />}
@@ -67,10 +67,10 @@ function App() {
             onPlaySlideshow={() => startSlideshow(heroProject)}
           />
 
-          <div className="relative z-20 space-y-4">
+          <div className="relative z-20 space-y-0">
             
             {/* Gallery Rows with negative margin to pull up over hero slightly if desired, or keep clean */}
-            <div className="relative z-30 -mt-10 md:-mt-20 pb-10 pl-0 bg-gradient-to-b from-transparent via-[#141414] to-[#141414]">
+            <div className="relative z-30 -mt-10 md:-mt-20 pb-20 pl-0 bg-gradient-to-b from-transparent via-[#141414] to-[#141414]">
                {rows.map((row, index) => (
                 <Row 
                   key={index} 
@@ -82,8 +82,8 @@ function App() {
               ))}
             </div>
 
-            <div id="process" className="relative z-20">
-              <Process />
+            <div id="about" className="relative z-20">
+                <PersonalNote />
             </div>
 
             <div id="pricing" className="relative z-20">

@@ -31,51 +31,51 @@ const Pricing: React.FC = () => {
   }, []);
 
   return (
-    <div className="py-32 px-4 md:px-12 bg-[#080808] border-t border-white/5 relative overflow-hidden">
+    <div className="py-24 px-4 md:px-12 bg-[#080808] border-t border-white/5 relative overflow-hidden">
       
-      <div className="text-center mb-24 space-y-4">
-        <h2 className="text-4xl md:text-6xl font-serif text-white">השקעה בזיכרונות</h2>
-        <p className="text-gray-500 font-light tracking-widest text-sm uppercase">Choose Your Legacy</p>
+      <div className="text-center mb-16 space-y-4">
+        <h2 className="text-3xl md:text-5xl font-serif text-white/90">החבילות שלי</h2>
+        <p className="text-gray-500 font-light tracking-widest text-xs uppercase">Investment in Memories</p>
       </div>
 
-      <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto group">
+      <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto group">
         {pricingPlans.map((plan) => (
           <div 
             key={plan.id} 
-            className="pricing-card relative bg-white/5 border border-white/10 p-10 rounded-2xl overflow-hidden transition-colors duration-300 hover:border-white/20"
+            className="pricing-card relative bg-[#121212] border border-white/5 p-8 rounded-xl overflow-hidden transition-colors duration-300 hover:border-white/10"
           >
-            {/* The Spotlight Glow */}
+            {/* The Spotlight Glow - Warmer Tone */}
             <div 
               className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100"
               style={{
-                background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.1), transparent 40%)`
+                background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255, 240, 220, 0.08), transparent 40%)`
               }}
             />
             
             <div className="relative z-10 h-full flex flex-col">
-                <div className="mb-6">
-                    {plan.isPopular && <span className="text-xs font-bold bg-white text-black px-2 py-1 rounded uppercase tracking-wider mb-3 inline-block">Popular Choice</span>}
-                    <h3 className="text-2xl font-serif text-white">{plan.name}</h3>
-                    <div className="mt-4 flex items-baseline gap-1">
-                        <span className="text-4xl font-light text-white">{plan.price}</span>
+                <div className="mb-6 text-center">
+                    {plan.isPopular && <span className="text-[10px] font-bold bg-white/90 text-black px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block shadow-lg">הכי מבוקשת</span>}
+                    <h3 className="text-xl font-serif text-white/90 mb-2">{plan.name}</h3>
+                    <div className="mt-2 flex justify-center items-baseline gap-1">
+                        <span className="text-3xl font-light text-white">{plan.price}</span>
                     </div>
                 </div>
 
-                <div className="w-full h-px bg-white/10 mb-8" />
+                <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8" />
                 
-                <ul className="space-y-4 mb-10 flex-grow">
+                <ul className="space-y-4 mb-10 flex-grow px-4">
                 {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-gray-400">
-                    <Check size={18} className="text-white mt-0.5 flex-shrink-0" />
+                    <li key={idx} className="flex items-start gap-3 text-gray-400 text-right" dir="rtl">
+                    <Check size={16} className="text-white/60 mt-0.5 flex-shrink-0" />
                     <span className="text-sm font-light leading-relaxed">{feature}</span>
                     </li>
                 ))}
                 </ul>
 
                 <button 
-                className="w-full py-4 text-sm font-bold tracking-widest uppercase border border-white/20 text-white hover:bg-white hover:text-black transition duration-300"
+                className="w-full py-3 text-xs font-bold tracking-[0.2em] uppercase border border-white/10 text-white/70 hover:bg-white hover:text-black hover:border-white transition duration-500"
                 >
-                Select Plan
+                אני רוצה את זה
                 </button>
             </div>
           </div>
