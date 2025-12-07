@@ -7,7 +7,7 @@ interface RowProps {
   title: string;
   projects: Project[];
   onOpenModal: (project: Project) => void;
-  onPlay: (project: Project) => void; // New prop
+  onPlay: (project: Project) => void; 
 }
 
 const Row: React.FC<RowProps> = ({ title, projects, onOpenModal, onPlay }) => {
@@ -30,7 +30,7 @@ const Row: React.FC<RowProps> = ({ title, projects, onOpenModal, onPlay }) => {
 
   return (
     <div className="h-44 sm:h-52 md:h-80 mb-8 relative group space-y-3 px-4 md:px-12 z-20">
-      <h2 className="text-lg md:text-2xl font-bold text-[#e5e5e5] hover:text-white transition duration-200 cursor-pointer inline-block drop-shadow-sm">
+      <h2 className="text-lg md:text-3xl font-serif font-bold text-[#e5e5e5] hover:text-white transition duration-200 cursor-pointer inline-block drop-shadow-sm">
         {title}
       </h2>
       

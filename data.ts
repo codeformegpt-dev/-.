@@ -1,9 +1,7 @@
-import { CategoryRow, Project, Testimonial } from './types';
+import { CategoryRow, Project, Testimonial, PricingPlan, ProcessStep } from './types';
 
 // Helper to generate random images from Unsplash for better quality
 const getImg = (keywords: string, w: number, h: number) => `https://source.unsplash.com/random/${w}x${h}?${keywords}`;
-// Note: Unsplash source is deprecated sometimes, using static reliable URLs or alternate logic is better, 
-// but for this demo I will use specific IDs or reliable keywords.
 
 const tags = ["מרגש", "אור טבעי", "משפחה", "אהבה", "ספונטני", "אותנטי", "ילדות", "קסם"];
 
@@ -158,3 +156,39 @@ export const testimonials: Testimonial[] = [
     rating: 5
   }
 ];
+
+export const pricingPlans: PricingPlan[] = [
+  {
+    id: 1,
+    name: "חבילת בסיס",
+    price: "1,200₪",
+    features: ["שעת צילום אחת", "לוקיישן אחד לבחירה", "50 תמונות ערוכות", "גלריה דיגיטלית", "ללא אלבום מודפס"],
+    isPopular: false
+  },
+  {
+    id: 2,
+    name: "חבילת פרימיום",
+    price: "1,900₪",
+    features: ["שעתיים צילום", "עד 2 לוקיישנים", "100 תמונות ערוכות", "גלריה דיגיטלית", "אלבום דיגיטלי מעוצב", "הגדלה אחת במתנה"],
+    isPopular: true
+  },
+  {
+    id: 3,
+    name: "חבילת VIP",
+    price: "3,500₪",
+    features: ["יום צילום מלא", "ללא הגבלת לוקיישנים", "כל התמונות ערוכות", "וידאו קליפ קצר", "אלבום פרימיום מודפס", "רחפן (במידת האפשר)"],
+    isPopular: false
+  }
+];
+
+export const processSteps: ProcessStep[] = [
+  { id: 1, number: "01", title: "היכרות", description: "שיחת קפה (או זום) להבין את הוויב שלכם ולתכנן את הלוקיישן המושלם." },
+  { id: 2, number: "02", title: "יום הצילום", description: "באים ליהנות! מוזיקה, צחוקים ואווירה טובה. אני דואג לכל השאר." },
+  { id: 3, number: "03", title: "קסם העריכה", description: "כל תמונה עוברת טיפול אישי, צבע ופילם לוק ייחודי." },
+  { id: 4, number: "04", title: "המסירה", description: "קבלת הגלריה המלאה והאלבומים המודפסים עד הבית." },
+];
+
+export const beforeAfterImages = {
+  before: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop", // Raw looking
+  after: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop&sat=0&con=120" // Edited looking (simulated for demo with same img but you'd swap urls)
+};

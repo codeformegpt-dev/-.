@@ -30,3 +30,18 @@ export interface Testimonial {
   avatar: string;
   rating: number;
 }
+
+export interface PricingPlan {
+  id: number;
+  name: string;
+  price: string;
+  features: string[];
+  isPopular?: boolean;
+}
+
+export interface ProcessStep {
+  id: number;
+  number: string;
+  title: string;
+  description: string;
+}

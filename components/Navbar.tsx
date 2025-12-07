@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
         {/* Logo Area */}
         <div 
           onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
-          className="flex items-center gap-2 cursor-pointer text-netflixRed font-bold text-2xl tracking-tighter hover:scale-105 transition"
+          className="flex items-center gap-2 cursor-pointer text-netflixRed font-serif font-bold text-3xl tracking-tighter hover:scale-105 transition"
         >
           <Camera size={28} />
           <span>STUDIO</span>
@@ -45,8 +45,9 @@ const Navbar: React.FC = () => {
         <ul className="hidden md:flex gap-6 text-sm font-medium text-gray-200">
           <li onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="cursor-pointer hover:text-white transition">בית</li>
           <li className="cursor-pointer font-bold hover:text-white transition">גלריות</li>
+           <li onClick={() => scrollToSection('process')} className="cursor-pointer hover:text-gray-400 transition">תהליך</li>
+          <li onClick={() => scrollToSection('pricing')} className="cursor-pointer hover:text-gray-400 transition">חבילות</li>
           <li onClick={() => scrollToSection('testimonials')} className="cursor-pointer hover:text-gray-400 transition">המלצות</li>
-          <li onClick={() => scrollToSection('contact')} className="cursor-pointer hover:text-gray-400 transition">צור קשר</li>
         </ul>
       </div>
 

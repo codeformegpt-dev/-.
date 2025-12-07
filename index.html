@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="he" dir="rtl" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -82,6 +82,13 @@
         background-color: #141414;
         color: #fff;
         overflow-x: hidden;
+      }
+      
+      /* Hide default cursor on desktop to show custom cursor */
+      @media (min-width: 768px) {
+        body, a, button, input, select {
+          cursor: none;
+        }
       }
     </style>
 <script type="importmap">

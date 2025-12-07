@@ -7,19 +7,29 @@ import TestimonialsRow from './components/TestimonialsRow';
 import Contact from './components/Contact';
 import Modal from './components/Modal';
 import Slideshow from './components/Slideshow';
-import VideoModal from './components/VideoModal'; // Import new component
+import VideoModal from './components/VideoModal';
 import Footer from './components/Footer';
-import { heroProject, rows, testimonials } from './data';
+import CustomCursor from './components/CustomCursor';
+import WhosWatching from './components/WhosWatching';
+import Pricing from './components/Pricing';
+import Process from './components/Process';
+import BeforeAfter from './components/BeforeAfter';
+
+import { heroProject, rows, testimonials, beforeAfterImages } from './data';
 import { Project } from './types';
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [appState, setAppState] = useState<'intro' | 'profile' | 'main'>('intro');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [slideshowProject, setSlideshowProject] = useState<Project | null>(null);
-  const [showreelOpen, setShowreelOpen] = useState(false); // State for main video
+  const [showreelOpen, setShowreelOpen] = useState(false);
 
   const handleIntroComplete = () => {
-    setLoading(false);
+    setAppState('profile');
+  };
+
+  const handleProfileSelect = () => {
+    setAppState('main');
   };
 
   const openModal = (project: Project) => {
@@ -47,17 +57,21 @@ function App() {
   };
 
   return (
-    <div className="bg-[#141414] min-h-screen text-white font-sans overflow-x-hidden selection:bg-netflixRed selection:text-white">
-      {loading && <Intro onComplete={handleIntroComplete} />}
+    <div className="bg-[#141414] min-h-screen text-white font-sans overflow-x-hidden selection:bg-netflixRed selection:text-white cursor-none">
+      <CustomCursor />
+      
+      {appState === 'intro' && <Intro onComplete={handleIntroComplete} />}
+      
+      {appState === 'profile' && <WhosWatching onSelectProfile={handleProfileSelect} />}
 
-      {!loading && (
+      {appState === 'main' && (
         <div className="animate-in fade-in duration-1000">
           <Navbar />
           
           <Hero 
             project={heroProject} 
             onMoreInfo={() => openModal(heroProject)} 
-            onPlay={openShowreel} // Play local showreel
+            onPlay={openShowreel} 
             onPlaySlideshow={() => startSlideshow(heroProject)}
           />
 
@@ -72,6 +86,16 @@ function App() {
               />
             ))}
             
+            <BeforeAfter beforeImage={beforeAfterImages.before} afterImage={beforeAfterImages.after} />
+
+            <div id="process">
+              <Process />
+            </div>
+
+            <div id="pricing">
+              <Pricing />
+            </div>
+
             <TestimonialsRow testimonials={testimonials} />
           </div>
 
